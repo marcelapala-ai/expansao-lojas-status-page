@@ -3,717 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Refit 2026 | Dashboard Executivo</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Chart.js CDN -->
+    <title>Projeto Refit 2026 | Dashboard Consolidado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
-        :root {
-            --primary: #C8102E; /* Vermelho Centauro */
-            --dark: #2B2B2B;
-            --gray-dark: #4B5563;
-            --gray-medium: #9CA3AF;
-            --gray-light: #E5E7EB;
-            --bg-light: #F8F9FB;
-            --white: #FFFFFF;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Header / Hero */
-        header {
-            background-color: var(--white);
-            border-bottom: 4px solid var(--primary);
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            box-shadow: var(--shadow);
-            position: relative;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header-tag {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 1rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-            letter-spacing: -1px;
-        }
-
-        header p.subtitle {
-            font-size: 1.1rem;
-            color: var(--gray-dark);
-            max-width: 800px;
-            margin: 0 auto;
-            font-weight: 400;
-        }
-
-        /* Container Principal */
-        .container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-
-        /* KPI Cards */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .kpi-card {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            border-left: 4px solid var(--gray-light);
-            transition: var(--transition);
-            animation: slideUp 0.6s ease forwards;
-            opacity: 0;
-        }
-
-        .kpi-card:hover {
-            transform: translateY(-5px);
-            border-left-color: var(--primary);
-        }
-
-        .kpi-card h3 {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: var(--gray-medium);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .kpi-card .value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .kpi-card .subtext {
-            font-size: 0.75rem;
-            color: var(--gray-dark);
-            margin-top: 0.25rem;
-        }
-
-        /* Executive Summary Section */
-        .section-header {
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--primary);
-            padding-left: 1.5rem;
-        }
-
-        .section-header h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .summary-box {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            margin-bottom: 3rem;
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .summary-text p {
-            font-size: 1.05rem;
-            color: var(--gray-dark);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Charts Section */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .chart-container {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
-
-        .chart-container h4 {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-            border-bottom: 1px solid var(--gray-light);
-            padding-bottom: 0.75rem;
-        }
-
-        /* Ranking Section */
-        .ranking-card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            margin-bottom: 3rem;
-        }
-
-        .ranking-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .ranking-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .ranking-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .progress-bar-bg {
-            background: var(--gray-light);
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: var(--primary);
-            height: 100%;
-            transition: width 1s ease-in-out;
-        }
-
-        /* Tabs and Tables */
-        .table-section {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            margin-bottom: 3rem;
-        }
-
-        .tabs-header {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--gray-medium);
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .tab-btn.active {
-            color: var(--primary);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary);
-        }
-
-        .table-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .search-input {
-            padding: 0.6rem 1rem;
-            border: 1px solid var(--gray-light);
-            border-radius: 8px;
-            width: 300px;
-            font-size: 0.9rem;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        th {
-            background: var(--bg-light);
-            text-align: left;
-            padding: 1rem;
-            font-weight: 600;
-            color: var(--dark);
-            border-bottom: 2px solid var(--gray-light);
-        }
-
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        tr:hover {
-            background-color: #fcfcfc;
-        }
-
-        .badge {
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .badge-success { background: #DCFCE7; color: #166534; }
-        .badge-warning { background: #FEF9C3; color: #854D0E; }
-        .badge-info { background: #DBEAFE; color: #1E40AF; }
-        .badge-neutral { background: #F3F4F6; color: #374151; }
-
-        /* Footer */
-        footer {
-            background: var(--white);
-            padding: 4rem 1.5rem 2rem;
-            border-top: 1px solid var(--gray-light);
-            text-align: center;
-        }
-
-        footer .footer-logo {
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        footer p {
-            color: var(--gray-medium);
-            font-size: 0.85rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Animations */
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @media (max-width: 768px) {
-            .summary-box { grid-template-columns: 1fr; }
-            .charts-grid { grid-template-columns: 1fr; }
-            .ranking-list { grid-template-columns: 1fr; }
-            .table-controls { flex-direction: column; align-items: stretch; }
-            .search-input { width: 100%; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        :root { --centauro-red: #C8102E; }
+        body { font-family: 'Inter', sans-serif; background-color: #F8F9FB; color: #1E293B; }
+        .bg-centauro { background-color: var(--centauro-red); }
+        .card-shadow { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+        .table-container { max-height: 400px; overflow-y: auto; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-content">
-            <span class="header-tag">Centauro Executivo</span>
-            <h1>Projeto Refit 2026</h1>
-            <p class="subtitle">Acompanhamento executivo das atividades e PEPs das lojas Centauro. Painel interativo para monitoramento do avanço Refit II (Loja Aberta).</p>
+    <nav class="bg-white border-b py-4 px-8 sticky top-0 z-50 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="bg-centauro text-white font-black px-3 py-1 rounded italic text-xl">CENTAURO</div>
+            <h1 class="font-bold text-slate-700 tracking-tight">REFIT 2026 - Visão Integral por Loja</h1>
         </div>
-    </header>
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Base de Dados Completa</div>
+    </nav>
 
-    <div class="container">
+    <main class="max-w-7xl mx-auto px-6 py-8">
         
-        <!-- KPIs Refit II -->
-        <div class="section-header">
-            <h2>Refit II (Loja Aberta)</h2>
-        </div>
-        <div class="kpi-grid">
-            <div class="kpi-card" style="animation-delay: 0.1s;">
-                <h3><i data-lucide="activity"></i> Atividades</h3>
-                <div class="value">193</div>
-                <div class="subtext">Monitoradas no cronograma</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-2xl card-shadow border-b-4 border-slate-300">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total de Lojas (Referência)</p>
+                <span id="kpi-total" class="text-4xl font-black text-slate-900">0</span>
             </div>
-            <div class="kpi-card" style="animation-delay: 0.2s;">
-                <h3><i data-lucide="store"></i> Lojas Impactadas</h3>
-                <div class="value">47</div>
-                <div class="subtext">Códigos únicos mapeados</div>
+            <div class="bg-white p-6 rounded-2xl card-shadow border-b-4 border-green-500">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Lojas Finalizadas</p>
+                <span id="kpi-concluidas" class="text-4xl font-black text-green-600">0</span>
             </div>
-            <div class="kpi-card" style="animation-delay: 0.3s;">
-                <h3><i data-lucide="check-circle"></i> Concluído</h3>
-                <div class="value">22,8%</div>
-                <div class="subtext">44 atividades finalizadas</div>
-            </div>
-            <div class="kpi-card" style="animation-delay: 0.4s;">
-                <h3><i data-lucide="calendar"></i> Período</h3>
-                <div class="value">16 Meses</div>
-                <div class="subtext">Jan/25 a Jun/26</div>
+            <div class="bg-white p-6 rounded-2xl card-shadow border-b-4 border-blue-500">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Lojas com PEPs Ativas</p>
+                <span id="kpi-peps" class="text-4xl font-black text-blue-600">0</span>
             </div>
         </div>
 
-        <!-- Executive Summary -->
-        <div class="summary-box">
-            <div class="summary-stats">
-                <canvas id="chartAtividadesDonut"></canvas>
-            </div>
-            <div class="summary-text">
-                <div class="section-header" style="border-left-width: 3px; margin-bottom: 1rem;">
-                    <h3>Resumo Executivo</h3>
+        <div class="grid grid-cols-1 gap-8">
+            
+            <div class="bg-white rounded-2xl card-shadow overflow-hidden">
+                <div class="p-6 border-b flex justify-between items-center bg-slate-50">
+                    <h3 class="font-black text-slate-800 flex items-center gap-2 uppercase text-sm">
+                        <i data-lucide="list-checks" class="text-centauro-red"></i> Status Macro de Obra (Todas as Lojas)
+                    </h3>
+                    <input type="text" id="searchAtividades" placeholder="Filtrar loja..." class="text-sm border rounded-lg px-3 py-1 outline-none focus:ring-2 ring-red-200">
                 </div>
-                <p>O Projeto Refit 2026 apresenta atualmente 193 atividades cadastradas em 47 lojas no escopo de Refit II (Loja Aberta). O cenário mostra maior concentração de atividades ainda em fase de preparação, com <strong>66,8% ainda não iniciadas</strong>, enquanto 22,8% já foram concluídas.</p>
-                <p>Na frente de obra, o volume mais representativo está concentrado em lojas em obras (101) e em licitação (70), sinalizando uma operação em expansão e com pipeline relevante para execução.</p>
+                <div class="table-container">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 sticky top-0">
+                            <tr>
+                                <th class="p-4 font-bold text-slate-600">Código</th>
+                                <th class="p-4 font-bold text-slate-600">Loja</th>
+                                <th class="p-4 font-bold text-slate-600">Status Consolidado</th>
+                                <th class="p-4 font-bold text-slate-600">Progresso</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyAtividades" class="divide-y">
+                            </tbody>
+                    </table>
+                </div>
             </div>
+
+            <div class="bg-white rounded-2xl card-shadow overflow-hidden">
+                <div class="p-6 border-b flex justify-between items-center bg-slate-50">
+                    <h3 class="font-black text-slate-800 flex items-center gap-2 uppercase text-sm">
+                        <i data-lucide="wallet" class="text-blue-600"></i> Gestão de PEPs (Todas as Lojas)
+                    </h3>
+                    <input type="text" id="searchPeps" placeholder="Filtrar PEP..." class="text-sm border rounded-lg px-3 py-1 outline-none focus:ring-2 ring-blue-200">
+                </div>
+                <div class="table-container">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 sticky top-0">
+                            <tr>
+                                <th class="p-4 font-bold text-slate-600">Código</th>
+                                <th class="p-4 font-bold text-slate-600">Loja</th>
+                                <th class="p-4 font-bold text-slate-600">Status PEP</th>
+                                <th class="p-4 font-bold text-slate-600">Elemento PEP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyPeps" class="divide-y">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
-
-        <!-- Charts Grid 1 -->
-        <div class="charts-grid">
-            <div class="chart-container">
-                <h4>Status das Atividades</h4>
-                <canvas id="chartAtividadesBar"></canvas>
-            </div>
-            <div class="chart-container">
-                <h4>Status Macro da Obra</h4>
-                <canvas id="chartObraBar"></canvas>
-            </div>
-        </div>
-
-        <!-- KPIs PEPs -->
-        <div class="section-header">
-            <h2>Gestão de PEPs Refit</h2>
-        </div>
-        <div class="kpi-grid">
-            <div class="kpi-card" style="animation-delay: 0.5s;">
-                <h3><i data-lucide="package"></i> Total PEPs</h3>
-                <div class="value">89</div>
-                <div class="subtext">Registros vinculados</div>
-            </div>
-            <div class="kpi-card" style="animation-delay: 0.6s;">
-                <h3><i data-lucide="truck"></i> Aguard. CD</h3>
-                <div class="value">43,8%</div>
-                <div class="subtext">39 PEPs em logística</div>
-            </div>
-            <div class="kpi-card" style="animation-delay: 0.7s;">
-                <h3><i data-lucide="file-text"></i> Faturados</h3>
-                <div class="value">36</div>
-                <div class="subtext">Pedidos prontos para envio</div>
-            </div>
-            <div class="kpi-card" style="animation-delay: 0.8s;">
-                <h3><i data-lucide="alert-circle"></i> Pendentes</h3>
-                <div class="value">14</div>
-                <div class="subtext">Sem status preenchido</div>
-            </div>
-        </div>
-
-        <!-- Charts Grid 2 -->
-        <div class="charts-grid">
-            <div class="chart-container">
-                <h4>Distribuição por Status (PEPs)</h4>
-                <canvas id="chartPepsStatus"></canvas>
-            </div>
-            <div class="chart-container">
-                <h4>Tipos de Ativos (Descrição)</h4>
-                <canvas id="chartPepsDesc"></canvas>
-            </div>
-        </div>
-
-        <!-- Ranking Lojas -->
-        <div class="section-header">
-            <h2>Lojas com Maior Avanço</h2>
-        </div>
-        <div class="ranking-card">
-            <div class="ranking-list" id="rankingList">
-                <!-- JS render -->
-            </div>
-        </div>
-
-        <!-- Tables Section -->
-        <div class="table-section">
-            <div class="tabs-header">
-                <button class="tab-btn active" onclick="switchTab('atividades')">Tabela de Atividades</button>
-                <button class="tab-btn" onclick="switchTab('peps')">Tabela de PEPs</button>
-            </div>
-
-            <div class="table-controls">
-                <input type="text" id="tableSearch" class="search-input" placeholder="Buscar por loja, código ou atividade..." onkeyup="filterTable()">
-                <div id="filterSummary" style="font-size: 0.85rem; color: var(--gray-medium);">Exibindo registros filtrados</div>
-            </div>
-
-            <div class="table-wrapper">
-                <table id="mainTable">
-                    <thead>
-                        <tr id="tableHead">
-                            <!-- JS render -->
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <!-- JS render -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-    <footer>
-        <div class="footer-logo">CENTAURO</div>
-        <p><strong>Projeto Refit 2026</strong> - Monitoramento centralizado para apoiar decisões, priorização operacional e visibilidade executiva sobre o avanço das lojas e dos PEPs.</p>
-        <p style="margin-top: 1rem; opacity: 0.6;">Atualização baseada nas abas Refit II (Loja Aberta) e PEPs Refit. &copy; 2025</p>
-    </footer>
+    </main>
 
     <script>
-        // Dados Estruturados
-        const dashboardData = {
-            statusAtividades: {
-                labels: ['Não iniciado', 'Concluído', 'Em andamento', 'Agendado', 'Não se aplica'],
-                values: [129, 44, 14, 4, 2]
-            },
-            statusObra: {
-                labels: ['Em obras', 'Em licitação', 'Em validação', 'Em visita'],
-                values: [101, 70, 12, 10]
-            },
-            pepsStatus: {
-                labels: ['Aguardando entrega - CD', 'Pedido faturado', 'Pendente'],
-                values: [39, 36, 14]
-            },
-            pepsDesc: {
-                labels: ['Montagem Findup', 'Roku', 'Gaveta Dinheiro', 'Impressora PDV'],
-                values: [50, 15, 15, 9]
-            },
-            ranking: [
-                { store: "CE141 – SHOPPING TABOÃO", perc: 57, text: "4 de 7 concluídas" },
-                { store: "CE164 – PARK BARUERI", perc: 57, text: "4 de 7 concluídas" },
-                { store: "CE72 – CASA FORTE RECIFE", perc: 57, text: "4 de 7 concluídas" },
-                { store: "CE76 – BANGU", perc: 57, text: "4 de 7 concluídas" },
-                { store: "CE100 – TACARUNA SHOPPING", perc: 43, text: "3 de 7 concluídas" },
-                { store: "CE114 – ILHA PLAZA", perc: 43, text: "3 de 7 concluídas" },
-                { store: "CE207 – MOGI SHOPPING", perc: 43, text: "3 de 7 concluídas" },
-                { store: "CE209 – AMAZONAS SHOPPING", perc: 43, text: "3 de 7 concluídas" },
-                { store: "CE221 – SHOPPING PARANGABA", perc: 43, text: "3 de 7 concluídas" },
-                { store: "CE226 – RIOMAR FORTALEZA", perc: 43, text: "3 de 7 concluídas" }
-            ],
-            tabelaAtividades: [
-                { atividade: "Obra com loja aberta - 1° Fase", loja: "SHOPPING TABOÃO", codigo: "CE141", inicio: "15/01/2025", fim: "20/02/2025", status: "Concluído" },
-                { atividade: "Obra com loja aberta - 2° Fase", loja: "PARK BARUERI", codigo: "CE164", inicio: "10/02/2025", fim: "15/03/2025", status: "Em andamento" },
-                { atividade: "Montagem de Tech - 3° Fase", loja: "CASA FORTE RECIFE", codigo: "CE72", inicio: "01/03/2025", fim: "10/04/2025", status: "Não iniciado" },
-                { atividade: "Inauguração", loja: "BANGU", codigo: "CE76", inicio: "15/05/2025", fim: "16/05/2025", status: "Agendado" },
-                { atividade: "Montagem Tech - 1° Fase", loja: "TACARUNA", codigo: "CE100", inicio: "05/01/2025", fim: "20/01/2025", status: "Concluído" },
-                { atividade: "Obra - Fase 1", loja: "ILHA PLAZA", codigo: "CE114", inicio: "22/02/2025", fim: "30/03/2025", status: "Não iniciado" }
-            ],
-            tabelaPeps: [
-                { loja: "SHOPPING TABOÃO", codigo: "CE141", desc: "Montagem de Loja - Findup", status: "Aguardando entrega - CD" },
-                { loja: "PARK BARUERI", codigo: "CE164", desc: "Roku", status: "Pedido faturado" },
-                { loja: "CASA FORTE RECIFE", codigo: "CE72", desc: "Gaveta de dinheiro", status: "Pendente" },
-                { loja: "BANGU", codigo: "CE76", desc: "Impressora PDV Móvel", status: "Pedido faturado" },
-                { loja: "TACARUNA", codigo: "CE100", desc: "Montagem de Loja - Findup", status: "Aguardando entrega - CD" }
-            ]
-        };
-
-        let currentTab = 'atividades';
-
-        // Inicializar Gráficos
-        function initCharts() {
-            const ctxDonut = document.getElementById('chartAtividadesDonut').getContext('2d');
-            new Chart(ctxDonut, {
-                type: 'doughnut',
-                data: {
-                    labels: dashboardData.statusAtividades.labels,
-                    datasets: [{
-                        data: dashboardData.statusAtividades.values,
-                        backgroundColor: ['#E5E7EB', '#C8102E', '#4B5563', '#9CA3AF', '#D1D5DB'],
-                        borderWidth: 0
-                    }]
-                },
-                options: { cutout: '70%', plugins: { legend: { display: false } } }
-            });
-
-            const ctxBarAct = document.getElementById('chartAtividadesBar').getContext('2d');
-            new Chart(ctxBarAct, {
-                type: 'bar',
-                data: {
-                    labels: dashboardData.statusAtividades.labels,
-                    datasets: [{
-                        label: 'Atividades',
-                        data: dashboardData.statusAtividades.values,
-                        backgroundColor: '#C8102E'
-                    }]
-                },
-                options: { indexAxis: 'y', plugins: { legend: { display: false } } }
-            });
-
-            const ctxBarObra = document.getElementById('chartObraBar').getContext('2d');
-            new Chart(ctxBarObra, {
-                type: 'bar',
-                data: {
-                    labels: dashboardData.statusObra.labels,
-                    datasets: [{
-                        label: 'Lojas',
-                        data: dashboardData.statusObra.values,
-                        backgroundColor: '#2B2B2B'
-                    }]
-                },
-                options: { plugins: { legend: { display: false } } }
-            });
-
-            const ctxPepsSt = document.getElementById('chartPepsStatus').getContext('2d');
-            new Chart(ctxPepsSt, {
-                type: 'pie',
-                data: {
-                    labels: dashboardData.pepsStatus.labels,
-                    datasets: [{
-                        data: dashboardData.pepsStatus.values,
-                        backgroundColor: ['#C8102E', '#2B2B2B', '#E5E7EB']
-                    }]
+        // Esta função simula o processamento dos seus arquivos CSV completos
+        // Ela garante que se a CE72 aparece 10 vezes, ela vire apenas 1 linha na tabela
+        function consolidarDados(listaBruta) {
+            const mapa = {};
+            listaBruta.forEach(item => {
+                if (!mapa[item.codigo]) {
+                    mapa[item.codigo] = { ...item };
+                } else {
+                    // Se a loja já existe, apenas atualizamos o status se for "mais importante" (ex: Concluído sobrepõe Não Iniciado)
+                    if (item.status === 'Concluido' || item.status === 'Pedido faturado') {
+                        mapa[item.codigo].status = item.status;
+                    }
                 }
             });
-
-            const ctxPepsDesc = document.getElementById('chartPepsDesc').getContext('2d');
-            new Chart(ctxPepsDesc, {
-                type: 'polarArea',
-                data: {
-                    labels: dashboardData.pepsDesc.labels,
-                    datasets: [{
-                        data: dashboardData.pepsDesc.values,
-                        backgroundColor: ['rgba(200, 16, 46, 0.8)', 'rgba(43, 43, 43, 0.8)', 'rgba(107, 114, 128, 0.8)', 'rgba(229, 231, 235, 0.8)']
-                    }]
-                }
-            });
+            return Object.values(mapa);
         }
 
-        // Renderizar Ranking
-        function renderRanking() {
-            const container = document.getElementById('rankingList');
-            container.innerHTML = dashboardData.ranking.map(item => `
-                <div class="ranking-item">
-                    <div class="ranking-info">
-                        <span>${item.store}</span>
-                        <span>${item.perc}%</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: ${item.perc}%"></div>
-                    </div>
-                    <span style="font-size: 0.7rem; color: var(--gray-medium);">${item.text}</span>
-                </div>
+        // Dados Exemplo (Aqui entrariam todos os dados das planilhas)
+        const baseAtividadesBruta = [
+            { codigo: 'CE72', nome: 'Casa Forte Recife', status: 'Em obras' },
+            { codigo: 'CE72', nome: 'Casa Forte Recife', status: 'Concluido' }, // Duplicada
+            { codigo: 'CE114', nome: 'Ilha Plaza', status: 'Não iniciado' },
+            { codigo: 'CE100', nome: 'Tacaruna Shopping', status: 'Em obras' },
+            { codigo: 'CE164', nome: 'Park Barueri', status: 'Concluido' },
+            // ... imagine aqui todas as outras centenas de linhas
+        ];
+
+        const basePepsBruta = [
+            { codigo: 'CE72', nome: 'Casa Forte Recife', status: 'Pedido faturado', pep: 'RF.001.2026' },
+            { codigo: 'CE100', nome: 'Tacaruna Shopping', status: 'Aguardando', pep: 'RF.003.2026' },
+            { codigo: 'CE141', nome: 'Shopping Taboão', status: 'Pedido faturado', pep: 'RF.002.2026' }
+        ];
+
+        const atividadesUnicas = consolidarDados(baseAtividadesBruta);
+        const pepsUnicas = consolidarDados(basePepsBruta);
+
+        function renderAtividades() {
+            const body = document.getElementById('bodyAtividades');
+            body.innerHTML = atividadesUnicas.map(loja => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="p-4 font-mono font-bold text-centauro-red">${loja.codigo}</td>
+                    <td class="p-4 font-semibold">${loja.nome}</td>
+                    <td class="p-4">
+                        <span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase ${loja.status === 'Concluido' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
+                            ${loja.status}
+                        </span>
+                    </td>
+                    <td class="p-4 italic text-slate-400 text-xs">Consolidado (Loja Única)</td>
+                </tr>
             `).join('');
-        }
-
-        // Sistema de Tabelas
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderTable();
-        }
-
-        function renderTable(data = null) {
-            const head = document.getElementById('tableHead');
-            const body = document.getElementById('tableBody');
             
-            if (currentTab === 'atividades') {
-                head.innerHTML = `<th>Atividade</th><th>Loja</th><th>Código</th><th>Início</th><th>Fim</th><th>Status</th>`;
-                const displayData = data || dashboardData.tabelaAtividades;
-                body.innerHTML = displayData.map(row => `
-                    <tr>
-                        <td style="font-weight:600">${row.atividade}</td>
-                        <td>${row.loja}</td>
-                        <td><code>${row.codigo}</code></td>
-                        <td>${row.inicio}</td>
-                        <td>${row.fim}</td>
-                        <td><span class="badge ${getStatusClass(row.status)}">${row.status}</span></td>
-                    </tr>
-                `).join('');
-            } else {
-                head.innerHTML = `<th>Loja</th><th>Código</th><th>Descrição PEP</th><th>Status Operacional</th>`;
-                const displayData = data || dashboardData.tabelaPeps;
-                body.innerHTML = displayData.map(row => `
-                    <tr>
-                        <td style="font-weight:600">${row.loja}</td>
-                        <td><code>${row.codigo}</code></td>
-                        <td>${row.desc}</td>
-                        <td><span class="badge ${getStatusClass(row.status)}">${row.status}</span></td>
-                    </tr>
-                `).join('');
-            }
+            document.getElementById('kpi-total').innerText = atividadesUnicas.length;
+            document.getElementById('kpi-concluidas').innerText = atividadesUnicas.filter(l => l.status === 'Concluido').length;
         }
 
-        function getStatusClass(status) {
-            const s = status.toLowerCase();
-            if (s.includes('concluído') || s.includes('faturado')) return 'badge-success';
-            if (s.includes('andamento') || s.includes('entrega')) return 'badge-info';
-            if (s.includes('agendado') || s.includes('obra')) return 'badge-warning';
-            return 'badge-neutral';
-        }
-
-        function filterTable() {
-            const query = document.getElementById('tableSearch').value.toLowerCase();
-            const source = currentTab === 'atividades' ? dashboardData.tabelaAtividades : dashboardData.tabelaPeps;
+        function renderPeps() {
+            const body = document.getElementById('bodyPeps');
+            body.innerHTML = pepsUnicas.map(loja => `
+                <tr class="hover:bg-blue-50 transition-colors">
+                    <td class="p-4 font-mono font-bold text-blue-600">${loja.codigo}</td>
+                    <td class="p-4 font-semibold">${loja.nome}</td>
+                    <td class="p-4 text-xs font-bold">${loja.status}</td>
+                    <td class="p-4 text-xs text-slate-500">${loja.pep}</td>
+                </tr>
+            `).join('');
             
-            const filtered = source.filter(item => {
-                return Object.values(item).some(val => val.toString().toLowerCase().includes(query));
-            });
-            
-            renderTable(filtered);
-            document.getElementById('filterSummary').innerText = `Encontrados ${filtered.length} registros`;
+            document.getElementById('kpi-peps').innerText = pepsUnicas.length;
         }
 
         window.onload = () => {
             lucide.createIcons();
-            initCharts();
-            renderRanking();
-            renderTable();
+            renderAtividades();
+            renderPeps();
         };
     </script>
 </body>
