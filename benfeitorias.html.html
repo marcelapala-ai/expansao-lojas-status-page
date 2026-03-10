@@ -3,224 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benfeitorias Centauro | Dashboard</title>
-    
+    <title>Benfeitorias Centauro | Dashboard Executivo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-        
-        :root {
-            --centauro-red: #E30613;
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-        }
-
+        :root { --centauro-red: #E30613; }
+        body { font-family: 'Inter', sans-serif; background-color: #FBFBFB; }
+        .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
         .bg-centauro-red { background-color: var(--centauro-red); }
         .text-centauro-red { color: var(--centauro-red); }
-        
-        .card-shadow {
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Animação suave de entrada */
-        .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
-<body class="bg-[#FBFBFB] text-slate-900">
+<body>
 
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 py-4 px-6">
+    <nav class="bg-white border-b border-gray-100 py-4 px-6 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="bg-centauro-red text-white font-black px-2 py-1 rounded text-lg italic">CENTAURO</div>
-                <span class="text-xs font-bold text-slate-400 tracking-tighter uppercase ml-2 hidden md:block">Benfeitorias v1.0</span>
+                <div class="bg-centauro-red text-white font-black px-2 py-1 rounded italic">CENTAURO</div>
+                <span class="text-xs font-bold text-slate-400 uppercase ml-2">Benfeitorias & Telas</span>
             </div>
-            <a href="#contato" class="text-sm font-bold text-slate-600 hover:text-centauro-red transition-colors">Relatório Executivo</a>
+            <a href="https://app.smartsheet.com/dashboards/qMpQ49FWCXp893FFhx3X8FmvgQfcpWGggxR8wRP1" target="_blank" class="flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-100 transition-all">
+                <i data-lucide="external-link" class="w-4 h-4"></i> Abrir Planilha Completa
+            </a>
         </div>
     </nav>
 
-    <header class="pt-16 pb-24 px-6">
-        <div class="max-w-5xl mx-auto text-center fade-in">
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
-                Projeto de Benfeitorias em Loja
-            </h1>
-            <p class="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed mb-10">
-                Acompanhamento executivo da instalação de telas e recebimento de equipamentos. Painel consolidado para leitura rápida da evolução do projeto.
-            </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#status" class="bg-centauro-red text-white px-8 py-4 rounded-lg font-bold shadow-lg shadow-red-200 hover:bg-red-700 transition-all">
-                    Ver Status do Projeto
-                </a>
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div class="bg-white p-6 rounded-2xl card-shadow border border-gray-50 text-center">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Total de Lojas</p>
+                <span class="text-4xl font-black text-slate-900">208</span>
+                <div class="mt-2 text-[10px] text-slate-400 italic">Base Geral Benfeitorias</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl card-shadow border-l-4 border-centauro-red text-center">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Instalação Telas Bar</p>
+                <span class="text-4xl font-black text-slate-900">77</span>
+                <div class="mt-2 text-[10px] font-bold text-centauro-red italic">Lojas em Escopo</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl card-shadow border border-gray-50 text-center">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Concluído (Telas)</p>
+                <span class="text-4xl font-black text-slate-900">28</span>
+                <div class="mt-2 text-xs font-bold text-green-600">13.5% do Total</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl card-shadow border border-gray-50 text-center">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Equipamentos OK</p>
+                <span class="text-4xl font-black text-slate-900">52</span>
+                <div class="mt-2 text-xs font-bold text-blue-600">25.0% Cobertura</div>
             </div>
         </div>
-    </header>
 
-    <section class="max-w-6xl mx-auto px-6 -mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
-        <div class="bg-white p-8 rounded-2xl card-shadow border border-gray-50 flex flex-col items-center text-center">
-            <div class="text-slate-400 mb-2"><i data-lucide="map-pin"></i></div>
-            <span class="text-5xl font-extrabold text-slate-900">208</span>
-            <p class="text-xs uppercase tracking-widest font-bold text-slate-400 mt-2">Lojas Monitoradas</p>
-        </div>
-        <div class="bg-white p-8 rounded-2xl card-shadow border border-gray-50 flex flex-col items-center text-center">
-            <div class="text-centauro-red mb-2"><i data-lucide="check-circle-2"></i></div>
-            <span class="text-5xl font-extrabold text-slate-900">28</span>
-            <p class="text-xs uppercase tracking-widest font-bold text-slate-400 mt-2">Instalações Concluídas</p>
-        </div>
-        <div class="bg-white p-8 rounded-2xl card-shadow border border-gray-50 flex flex-col items-center text-center">
-            <div class="text-blue-500 mb-2"><i data-lucide="clock"></i></div>
-            <span class="text-5xl font-extrabold text-slate-900">16</span>
-            <p class="text-xs uppercase tracking-widest font-bold text-slate-400 mt-2">Agendamentos Ativos</p>
-        </div>
-    </section>
-
-    <section id="status" class="max-w-6xl mx-auto px-6 py-12 mb-24">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div class="lg:col-span-8 bg-white p-8 rounded-3xl card-shadow border border-gray-50">
-                <h3 class="text-2xl font-bold mb-8 flex items-center gap-2">
-                    <i data-lucide="bar-chart-3" class="text-centauro-red"></i> Status da Instalação das Telas
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 bg-white p-8 rounded-3xl card-shadow">
+                <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i data-lucide="pie-chart" class="text-centauro-red"></i> Distribuição de Status (Telas)
                 </h3>
-                <div class="relative h-[400px]">
-                    <canvas id="telasChart"></canvas>
+                <canvas id="telasChart" height="150"></canvas>
+            </div>
+
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl">
+                    <h4 class="text-centauro-red font-black uppercase text-xs mb-4">Detalhamento</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex justify-between border-b border-slate-700 pb-2">
+                            <span>Agendados</span>
+                            <span class="font-bold text-orange-400">16 lojas (7.7%)</span>
+                        </li>
+                        <li class="flex justify-between border-b border-slate-700 pb-2">
+                            <span>Pendência Eng/Tech</span>
+                            <span class="font-bold text-red-400">4 lojas (1.9%)</span>
+                        </li>
+                        <li class="flex justify-between border-b border-slate-700 pb-2">
+                            <span>Processo Compra</span>
+                            <span class="font-bold text-yellow-400">4 lojas (1.9%)</span>
+                        </li>
+                    </ul>
+                    <a href="https://app.smartsheet.com/dashboards/qMpQ49FWCXp893FFhx3X8FmvgQfcpWGggxR8wRP1" target="_blank" class="block text-center mt-6 text-xs font-bold text-slate-400 hover:text-white transition-all underline">
+                        Ver histórico de observações na planilha
+                    </a>
                 </div>
             </div>
-            
-            <div class="lg:col-span-4 flex flex-col gap-6">
-                <div class="bg-slate-900 text-white p-8 rounded-3xl h-full shadow-xl">
-                    <h4 class="text-centauro-red font-bold uppercase tracking-widest text-xs mb-6 underline decoration-2 underline-offset-8">Resumo Executivo</h4>
-                    <div class="space-y-6 text-sm text-slate-300">
-                        <p class="leading-relaxed">
-                            <strong class="text-white block mb-1">Avanço Significativo:</strong> 
-                            A maior concentração do projeto está entre lojas concluídas e agendadas.
-                        </p>
-                        <p class="leading-relaxed">
-                            <strong class="text-white block mb-1">Pontos de Atenção:</strong> 
-                            Cancelamentos e pendências (ENG/Tech) exigem acompanhamento próximo para mitigar atrasos.
-                        </p>
-                        <p class="leading-relaxed italic">
-                            Interface desenhada para leitura rápida e tomada de decisão gerencial.
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
-    </section>
-
-    <section class="bg-white py-24 border-y border-slate-100">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="mb-16">
-                <h2 class="text-3xl font-bold text-slate-900 mb-2">Status Macro de Equipamentos</h2>
-                <p class="text-slate-500 font-medium">Cobertura de recebimento nas 208 lojas monitoradas.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="equipamentos-grid">
-                </div>
-        </div>
-    </section>
-
-    <section class="max-w-4xl mx-auto px-6 py-24">
-        <div class="bg-slate-50 border-2 border-dashed border-slate-200 p-10 rounded-3xl">
-            <h3 class="text-xl font-bold mb-8 flex items-center gap-2">
-                <i data-lucide="file-text" class="text-centauro-red"></i> Notas da Gestão
-            </h3>
-            <div class="grid gap-6 text-slate-600">
-                <p class="border-l-4 border-centauro-red pl-4 py-1 italic text-lg">"A implantação das telas já apresenta avanço relevante nas frentes concluídas e agendadas."</p>
-                <p class="border-l-4 border-slate-300 pl-4 py-1 italic text-lg">"No recebimento de equipamentos, as categorias apresentam níveis distintos de cobertura entre as lojas."</p>
-                <p class="font-bold text-slate-900 pt-4 uppercase text-sm tracking-widest">Painel de Controle v1.0 - Centauro</p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-white border-t border-slate-100 py-12 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="font-black text-2xl italic text-slate-200">CENTAURO</div>
-            <p class="text-slate-400 text-sm font-medium">© 2024 Projeto de Benfeitorias | Visão Consolidada</p>
-        </div>
-    </footer>
+    </main>
 
     <script>
-        // 1. Inicializar Ícones
         lucide.createIcons();
 
-        // 2. Dados e Gráfico de Telas
-        const statusData = {
-            labels: ['Concluído', 'Agendado', 'Cancelado', 'Não iniciado', 'N/A', 'Pend. ENG', 'Pend. Tech', 'Proc. Compra', 'Liberado'],
-            values: [28, 16, 12, 5, 2, 3, 1, 4, 1],
-            colors: ['#E30613', '#4B5563', '#9CA3AF', '#D1D5DB', '#E5E7EB', '#F87171', '#FCA5A5', '#F3F4F6', '#10B981']
-        };
-
+        // Gráfico com os dados atualizados das suas planilhas
         const ctx = document.getElementById('telasChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: statusData.labels,
+                labels: ['Concluído', 'Agendado', 'Cancelado', 'Pendência', 'Compra'],
                 datasets: [{
-                    data: statusData.values,
-                    backgroundColor: statusData.colors,
-                    borderRadius: 6,
-                    barThickness: 25
+                    label: 'Quantidade de Lojas',
+                    data: [28, 16, 12, 4, 4],
+                    backgroundColor: ['#10B981', '#F59E0B', '#94A3B8', '#EF4444', '#6366F1'],
+                    borderRadius: 8
                 }]
             },
             options: {
-                indexAxis: 'y',
                 responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { padding: 12, backgroundColor: '#1e293b' }
-                },
-                scales: {
-                    x: { grid: { display: false }, ticks: { font: { weight: 'bold' } } },
-                    y: { grid: { display: false }, ticks: { font: { weight: '600', size: 11 } } }
-                }
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
             }
         });
-
-        // 3. Gerar Equipamentos dinamicamente
-        const totalLojas = 208;
-        const equipamentos = [
-            { nome: "Antena de WI-FI", qtd: 70, icon: "wifi" },
-            { nome: "ROKU + HDMI", qtd: 35, icon: "tv" },
-            { nome: "ROKU", qtd: 39, icon: "monitor" },
-            { nome: "Impressoras", qtd: 52, icon: "printer" }
-        ];
-
-        const grid = document.getElementById('equipamentos-grid');
-        equipamentos.forEach(eq => {
-            const percent = ((eq.qtd / totalLojas) * 100).toFixed(1);
-            grid.innerHTML += `
-                <div class="bg-[#FBFBFB] p-6 rounded-2xl border border-slate-100 hover:border-red-100 transition-all group">
-                    <div class="flex justify-between items-center mb-6">
-                        <div class="p-2 bg-white rounded-lg shadow-sm group-hover:text-centauro-red transition-colors">
-                            <i data-lucide="${eq.icon}" class="w-5 h-5"></i>
-                        </div>
-                        <span class="text-2xl font-black text-slate-900">${eq.qtd}</span>
-                    </div>
-                    <h4 class="font-bold text-slate-700 text-sm mb-4">${eq.nome}</h4>
-                    <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mb-2">
-                        <div class="bg-centauro-red h-full" style="width: ${percent}%"></div>
-                    </div>
-                    <span class="text-[10px] font-black text-centauro-red uppercase tracking-wider">${percent}% Cobertura</span>
-                </div>
-            `;
-        });
-        
-        // Reinicializar ícones para os cards gerados por JS
-        lucide.createIcons();
     </script>
 </body>
 </html>
