@@ -5,88 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projeto Refit 2026 | Dashboard Consolidado</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
         :root { --centauro-red: #C8102E; }
-        body { font-family: 'Inter', sans-serif; background-color: #F8F9FB; color: #1E293B; }
+        body { font-family: 'Inter', sans-serif; background-color: #F4F7FA; color: #1E293B; }
         .bg-centauro { background-color: var(--centauro-red); }
-        .card-shadow { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
-        .table-container { max-height: 400px; overflow-y: auto; }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .table-container { max-height: 550px; overflow-y: auto; scrollbar-gutter: stable; }
+        .table-container::-webkit-scrollbar { width: 6px; }
+        .table-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .status-badge { @apply px-2 py-1 rounded-full text-[10px] font-bold uppercase; }
     </style>
 </head>
 <body>
 
     <nav class="bg-white border-b py-4 px-8 sticky top-0 z-50 flex justify-between items-center">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-4">
             <div class="bg-centauro text-white font-black px-3 py-1 rounded italic text-xl">CENTAURO</div>
-            <h1 class="font-bold text-slate-700 tracking-tight">REFIT 2026 - Visão Integral por Loja</h1>
+            <h1 class="font-bold text-slate-700 hidden md:block">REFIT 2026 • Visão por Loja Única</h1>
         </div>
-        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Base de Dados Completa</div>
+        <div id="last-update" class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter text-right leading-tight">
+            Atualização: Março 2026<br>Filtro: Todas as Unidades
+        </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-8">
+    <main class="max-w-7xl mx-auto px-4 py-8">
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="bg-white p-6 rounded-2xl card-shadow border-b-4 border-slate-300">
-                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total de Lojas (Referência)</p>
-                <span id="kpi-total" class="text-4xl font-black text-slate-900">0</span>
+        <!-- KPIs Consolidados (Lojas Únicas) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-xl card-shadow border-l-4 border-slate-400">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Lojas Únicas Total</p>
+                <div class="flex items-end gap-2">
+                    <span id="kpi-total" class="text-3xl font-black text-slate-900">0</span>
+                    <span class="text-slate-400 text-xs mb-1">unidades</span>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-2xl card-shadow border-b-4 border-green-500">
-                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Lojas Finalizadas</p>
-                <span id="kpi-concluidas" class="text-4xl font-black text-green-600">0</span>
+            <div class="bg-white p-5 rounded-xl card-shadow border-l-4 border-green-500">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Obras Concluídas</p>
+                <div class="flex items-end gap-2">
+                    <span id="kpi-concluidas" class="text-3xl font-black text-green-600">0</span>
+                    <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mb-1"></i>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-2xl card-shadow border-b-4 border-blue-500">
-                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Lojas com PEPs Ativas</p>
-                <span id="kpi-peps" class="text-4xl font-black text-blue-600">0</span>
+            <div class="bg-white p-5 rounded-xl card-shadow border-l-4 border-blue-500">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">PEPs Únicas Ativas</p>
+                <div class="flex items-end gap-2">
+                    <span id="kpi-peps" class="text-3xl font-black text-blue-600">0</span>
+                    <i data-lucide="file-text" class="w-5 h-5 text-blue-500 mb-1"></i>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-xl card-shadow border-l-4 border-orange-500">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Em Execução</p>
+                <div class="flex items-end gap-2">
+                    <span id="kpi-obras" class="text-3xl font-black text-orange-600">0</span>
+                    <i data-lucide="hammer" class="w-5 h-5 text-orange-500 mb-1"></i>
+                </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 gap-8">
             
-            <div class="bg-white rounded-2xl card-shadow overflow-hidden">
-                <div class="p-6 border-b flex justify-between items-center bg-slate-50">
-                    <h3 class="font-black text-slate-800 flex items-center gap-2 uppercase text-sm">
-                        <i data-lucide="list-checks" class="text-centauro-red"></i> Status Macro de Obra (Todas as Lojas)
-                    </h3>
-                    <input type="text" id="searchAtividades" placeholder="Filtrar loja..." class="text-sm border rounded-lg px-3 py-1 outline-none focus:ring-2 ring-red-200">
+            <!-- Tabela: Status Macro (Lojas Únicas) -->
+            <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
+                <div class="p-5 border-b bg-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="layout-grid" class="w-5 h-5 text-centauro-red"></i> Status Macro de Obra
+                        </h3>
+                        <p class="text-xs text-slate-500">Agrupado por loja (múltiplas atividades consolidadas em 1 linha)</p>
+                    </div>
+                    <input type="text" onkeyup="searchTable('atividades', this.value)" placeholder="Buscar loja ou código..." class="text-sm border rounded-lg px-4 py-2 w-full md:w-64 outline-none focus:ring-2 ring-red-100">
                 </div>
                 <div class="table-container">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-100 sticky top-0">
+                    <table class="w-full text-left text-sm" id="table-atividades">
+                        <thead class="bg-white sticky top-0 border-b shadow-sm z-10">
                             <tr>
-                                <th class="p-4 font-bold text-slate-600">Código</th>
-                                <th class="p-4 font-bold text-slate-600">Loja</th>
-                                <th class="p-4 font-bold text-slate-600">Status Consolidado</th>
-                                <th class="p-4 font-bold text-slate-600">Progresso</th>
+                                <th class="p-4 font-bold text-slate-500">Código</th>
+                                <th class="p-4 font-bold text-slate-500">Loja</th>
+                                <th class="p-4 font-bold text-slate-500">Status Geral</th>
+                                <th class="p-4 font-bold text-slate-500 text-right">Volume Ativ.</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyAtividades" class="divide-y">
-                            </tbody>
+                        <tbody id="body-atividades" class="divide-y divide-slate-100">
+                            <!-- JS -->
+                        </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl card-shadow overflow-hidden">
-                <div class="p-6 border-b flex justify-between items-center bg-slate-50">
-                    <h3 class="font-black text-slate-800 flex items-center gap-2 uppercase text-sm">
-                        <i data-lucide="wallet" class="text-blue-600"></i> Gestão de PEPs (Todas as Lojas)
-                    </h3>
-                    <input type="text" id="searchPeps" placeholder="Filtrar PEP..." class="text-sm border rounded-lg px-3 py-1 outline-none focus:ring-2 ring-blue-200">
+            <!-- Tabela: PEPs (Lojas Únicas) -->
+            <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
+                <div class="p-5 border-b bg-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="badge-dollar-sign" class="w-5 h-5 text-blue-600"></i> Gestão de PEPs por Unidade
+                        </h3>
+                        <p class="text-xs text-slate-500">Visualização financeira única por código de loja</p>
+                    </div>
+                    <input type="text" onkeyup="searchTable('peps', this.value)" placeholder="Filtrar por PEP ou Loja..." class="text-sm border rounded-lg px-4 py-2 w-full md:w-64 outline-none focus:ring-2 ring-blue-100">
                 </div>
                 <div class="table-container">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-100 sticky top-0">
+                    <table class="w-full text-left text-sm" id="table-peps">
+                        <thead class="bg-white sticky top-0 border-b shadow-sm z-10">
                             <tr>
-                                <th class="p-4 font-bold text-slate-600">Código</th>
-                                <th class="p-4 font-bold text-slate-600">Loja</th>
-                                <th class="p-4 font-bold text-slate-600">Status PEP</th>
-                                <th class="p-4 font-bold text-slate-600">Elemento PEP</th>
+                                <th class="p-4 font-bold text-slate-500">Código</th>
+                                <th class="p-4 font-bold text-slate-500">Loja</th>
+                                <th class="p-4 font-bold text-slate-500">Status PEP</th>
+                                <th class="p-4 font-bold text-slate-500">Elemento PEP</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyPeps" class="divide-y">
-                            </tbody>
+                        <tbody id="body-peps" class="divide-y divide-slate-100">
+                            <!-- JS -->
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -95,79 +126,110 @@
     </main>
 
     <script>
-        // Esta função simula o processamento dos seus arquivos CSV completos
-        // Ela garante que se a CE72 aparece 10 vezes, ela vire apenas 1 linha na tabela
-        function consolidarDados(listaBruta) {
-            const mapa = {};
-            listaBruta.forEach(item => {
-                if (!mapa[item.codigo]) {
-                    mapa[item.codigo] = { ...item };
+        // Simulando a extração dos dados das planilhas enviadas, focando em Lojas Únicas
+        const dadosObraBrutos = [
+            { codigo: 'CE72', loja: 'CASA FORTE RECIFE', status: 'Em obras' },
+            { codigo: 'CE72', loja: 'CASA FORTE RECIFE', status: 'Não iniciado' }, // CE72 tem várias atividades
+            { codigo: 'CE72', loja: 'CASA FORTE RECIFE', status: 'Em obras' },
+            { codigo: 'CE100', loja: 'TACARUNA SHOPPING', status: 'Em obras' },
+            { codigo: 'CE100', loja: 'TACARUNA SHOPPING', status: 'Concluido' },
+            { codigo: 'CE114', loja: 'ILHA PLAZA', status: 'Em obras' },
+            { codigo: 'CE164', loja: 'PARK BARUERI', status: 'Concluido' },
+            { codigo: 'CE76', loja: 'BANGU', status: 'Não iniciado' },
+            { codigo: 'CE141', loja: 'SHOPPING TABOÃO', status: 'Não iniciado' },
+            { codigo: 'CE243', loja: 'TIJUCA', status: 'Não iniciado' }
+        ];
+
+        const dadosPepsBrutos = [
+            { codigo: 'CE141', loja: 'SHOPPING TABOÃO', status: 'Pedido faturado', pep: 'RF.002.2026' },
+            { codigo: 'CE100', loja: 'TACARUNA SHOPPING', status: 'Pedido faturado', pep: 'RF.003.2026' },
+            { codigo: 'CE72', loja: 'CASA FORTE RECIFE', status: 'Pedido faturado', pep: 'RF.001.2026' },
+            { codigo: 'CE72', loja: 'CASA FORTE RECIFE', status: 'Pedido faturado', pep: 'RF.001.2026' }, // Duplicado na planilha
+            { codigo: 'CE114', loja: 'ILHA PLAZA', status: 'Aguardando', pep: 'RF.014.2026' },
+            { codigo: 'CE226', loja: 'RIOMAR FORTALEZA', status: 'Aguardando', pep: 'RF.016.2026' }
+        ];
+
+        /**
+         * Função principal de consolidação
+         * Garante que cada loja (código) apareça apenas uma vez
+         */
+        function consolidar(dados, tipo) {
+            const sumario = {};
+            
+            dados.forEach(item => {
+                const id = item.codigo;
+                if (!sumario[id]) {
+                    sumario[id] = { ...item, count: 1 };
                 } else {
-                    // Se a loja já existe, apenas atualizamos o status se for "mais importante" (ex: Concluído sobrepõe Não Iniciado)
-                    if (item.status === 'Concluido' || item.status === 'Pedido faturado') {
-                        mapa[item.codigo].status = item.status;
+                    sumario[id].count++;
+                    // Lógica para definir o status macro se houver divergência nas atividades
+                    if (tipo === 'obra') {
+                        // Prioridade: Em obras > Não iniciado > Concluido (ou conforme regra de negócio)
+                        // Aqui consideramos que se houver algo "Em obras", a loja está em obras.
+                        if (item.status === 'Em obras') sumario[id].status = 'Em obras';
                     }
                 }
             });
-            return Object.values(mapa);
+            
+            return Object.values(sumario);
         }
 
-        // Dados Exemplo (Aqui entrariam todos os dados das planilhas)
-        const baseAtividadesBruta = [
-            { codigo: 'CE72', nome: 'Casa Forte Recife', status: 'Em obras' },
-            { codigo: 'CE72', nome: 'Casa Forte Recife', status: 'Concluido' }, // Duplicada
-            { codigo: 'CE114', nome: 'Ilha Plaza', status: 'Não iniciado' },
-            { codigo: 'CE100', nome: 'Tacaruna Shopping', status: 'Em obras' },
-            { codigo: 'CE164', nome: 'Park Barueri', status: 'Concluido' },
-            // ... imagine aqui todas as outras centenas de linhas
-        ];
+        const lojasUnicasObra = consolidar(dadosObraBrutos, 'obra');
+        const lojasUnicasPep = consolidar(dadosPepsBrutos, 'pep');
 
-        const basePepsBruta = [
-            { codigo: 'CE72', nome: 'Casa Forte Recife', status: 'Pedido faturado', pep: 'RF.001.2026' },
-            { codigo: 'CE100', nome: 'Tacaruna Shopping', status: 'Aguardando', pep: 'RF.003.2026' },
-            { codigo: 'CE141', nome: 'Shopping Taboão', status: 'Pedido faturado', pep: 'RF.002.2026' }
-        ];
-
-        const atividadesUnicas = consolidarDados(baseAtividadesBruta);
-        const pepsUnicas = consolidarDados(basePepsBruta);
-
-        function renderAtividades() {
-            const body = document.getElementById('bodyAtividades');
-            body.innerHTML = atividadesUnicas.map(loja => `
+        function render() {
+            // Render Atividades
+            const bodyAtiv = document.getElementById('body-atividades');
+            bodyAtiv.innerHTML = lojasUnicasObra.map(l => `
                 <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="p-4 font-mono font-bold text-centauro-red">${loja.codigo}</td>
-                    <td class="p-4 font-semibold">${loja.nome}</td>
+                    <td class="p-4 font-mono font-bold text-centauro-red">${l.codigo}</td>
+                    <td class="p-4 font-semibold text-slate-700">${l.loja}</td>
                     <td class="p-4">
-                        <span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase ${loja.status === 'Concluido' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
-                            ${loja.status}
-                        </span>
+                        <span class="status-badge ${
+                            l.status === 'Concluido' ? 'bg-green-100 text-green-700' : 
+                            l.status === 'Em obras' ? 'bg-orange-100 text-orange-700' : 'bg-slate-100 text-slate-500'
+                        }">${l.status}</span>
                     </td>
-                    <td class="p-4 italic text-slate-400 text-xs">Consolidado (Loja Única)</td>
+                    <td class="p-4 text-right text-xs text-slate-400 font-medium">${l.count} Atividades</td>
                 </tr>
             `).join('');
-            
-            document.getElementById('kpi-total').innerText = atividadesUnicas.length;
-            document.getElementById('kpi-concluidas').innerText = atividadesUnicas.filter(l => l.status === 'Concluido').length;
+
+            // Render PEPs
+            const bodyPeps = document.getElementById('body-peps');
+            bodyPeps.innerHTML = lojasUnicasPep.map(l => `
+                <tr class="hover:bg-blue-50 transition-colors">
+                    <td class="p-4 font-mono font-bold text-blue-600">${l.codigo}</td>
+                    <td class="p-4 font-semibold text-slate-700">${l.loja}</td>
+                    <td class="p-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full ${l.status.includes('faturado') ? 'bg-blue-500' : 'bg-amber-400'}"></span>
+                            <span class="text-xs font-bold text-slate-600">${l.status}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 font-mono text-[11px] text-slate-500">${l.pep}</td>
+                </tr>
+            `).join('');
+
+            // Atualizar KPIs (Contagem de Lojas Únicas)
+            document.getElementById('kpi-total').innerText = lojasUnicasObra.length;
+            document.getElementById('kpi-concluidas').innerText = lojasUnicasObra.filter(l => l.status === 'Concluido').length;
+            document.getElementById('kpi-obras').innerText = lojasUnicasObra.filter(l => l.status === 'Em obras').length;
+            document.getElementById('kpi-peps').innerText = lojasUnicasPep.length;
         }
 
-        function renderPeps() {
-            const body = document.getElementById('bodyPeps');
-            body.innerHTML = pepsUnicas.map(loja => `
-                <tr class="hover:bg-blue-50 transition-colors">
-                    <td class="p-4 font-mono font-bold text-blue-600">${loja.codigo}</td>
-                    <td class="p-4 font-semibold">${loja.nome}</td>
-                    <td class="p-4 text-xs font-bold">${loja.status}</td>
-                    <td class="p-4 text-xs text-slate-500">${loja.pep}</td>
-                </tr>
-            `).join('');
+        function searchTable(type, query) {
+            const tableId = type === 'atividades' ? 'body-atividades' : 'body-peps';
+            const q = query.toLowerCase();
+            const rows = document.getElementById(tableId).getElementsByTagName('tr');
             
-            document.getElementById('kpi-peps').innerText = pepsUnicas.length;
+            for (let row of rows) {
+                row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
+            }
         }
 
         window.onload = () => {
             lucide.createIcons();
-            renderAtividades();
-            renderPeps();
+            render();
         };
     </script>
 </body>
